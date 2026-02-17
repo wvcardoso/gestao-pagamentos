@@ -1,4 +1,4 @@
-# 📊 gestao-pagamentos
+## 📊 gestao-pagamentos
 
 O **gestao-pagamentos** é um aplicativo desenvolvido para ajudar no controle de contas mensais, como energia, água, telefone e outros pagamentos recorrentes.
 
@@ -13,7 +13,7 @@ A ideia é centralizar todas as contas em um único lugar, permitindo:
 
 ---
 
-# 🚀 Como funciona
+## 🚀 Como funciona
 
 O sistema processa arquivos colocados na pasta de entrada:
 
@@ -29,7 +29,7 @@ Após o processamento:
 
 ---
 
-# 📝 Formato do arquivo TXT
+## 📝 Formato do arquivo TXT
 
 Para contas manuais, utilize o seguinte padrão:
 
@@ -44,7 +44,7 @@ pix: 999999999-99
 descricao: "conta de agua"
 ```
 
-# 🏠 Identificação da residência
+## 🏠 Identificação da residência
 
 A identificação da residência é feita com base na `unidade_consumidora`.
 
@@ -71,7 +71,7 @@ O sistema utiliza um arquivo `residencias.json` com o seguinte formato:
 
 Esse mapeamento permite relacionar contas de diferentes serviços (energia, água, etc.) à mesma residência.
 
-# 📦 Pré-requisitos
+## 📦 Pré-requisitos
 
 * Python 3.10+
 * pip
@@ -82,18 +82,18 @@ Instalar dependências:
 pip install -r requirements.txt
 ```
 
-# ▶️ Como usar
+## ▶️ Como usar
 
-## 🔹 1. Adicionar arquivos
+### 🔹 1. Adicionar arquivos
 Coloque os arquivos na pasta:
 ```bash
 data/entrada/
 ```
-## 🔹 2. Processar contas
+### 🔹 2. Processar contas
 ```bash
 python3 app/main.py
 ```
-## 🔹 3. Iniciar dashboard
+### 🔹 3. Iniciar dashboard
 ```bash
 python3 app/web.py
 ```
@@ -102,7 +102,7 @@ Acesse no navegador:
 ```bash
 http://localhost:5000
 ```
-# 📊 Funcionalidades
+## 📊 Funcionalidades
 
 - ✅ Leitura de PDFs de contas
 - ✅ Parser para múltiplos fornecedores
@@ -113,7 +113,7 @@ http://localhost:5000
 - ✅ Marcar contas como pagas
 - ✅ Suporte a PIX (QR Code)
 
-# 🧠 Estrutura do projeto
+## 🧠 Estrutura do projeto
 ```bash
 app/
  ├── main.py
@@ -131,7 +131,7 @@ data/
  └── residencias.json
  ```
 
-# 🚀 Próximos passos (ideias)
+## 🚀 Próximos passos (ideias)
 
 - 📊 Gráficos de gastos por mês
 - 📈 Relatórios por residência
@@ -142,5 +142,5 @@ data/
 
 Este projeto foi desenvolvido com foco em automação pessoal e aprendizado, podendo evoluir para uma solução mais robusta.
 
-# 👨‍💻 Autor
+## 👨‍💻 Autor
 Willian (wvcardoso)
