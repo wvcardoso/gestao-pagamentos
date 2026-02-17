@@ -1,0 +1,7 @@
+pdfplumber
+pdf2image
+opencv-python
+pyzbar
+pillow
+flask
+qrcode

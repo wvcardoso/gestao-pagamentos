@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard de Contas</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">📊 Dashboard de Contas</h2>
+
+    <table class="table table-striped table-hover shadow bg-white rounded">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Residência</th>
+                <th>Tipo</th>
+                <th>Favorecido</th>
+                <th>Valor</th>
+                <th>Vencimento</th>
+                <th>Status</th>
+                <th>Ação</th>
+                <th>PIX</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for c in contas %}
+            <tr>
+                <td>{{ c.id }}</td>
+                <td>{{ c.residencia }}</td>
+                <td>{{ c.tipo }}</td>
+                <td>{{ c.favorecido }}</td>
+
+                <td>
+                    <strong>R$ {{ "%.2f"|format(c.valor or 0) }}</strong>
+                </td>
+
+                <td>{{ c.vencimento }}</td>
+
+                <td>
+                    {% if c.status == 'pago' %}
+                        <span class="badge bg-success">Pago</span>
+                    {% else %}
+                        <span class="badge bg-warning text-dark">Pendente</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if c.status != 'pago' %}
+                        <a href="/pagar/{{ c.id }}" class="btn btn-sm btn-success">
+                            ✔ Pagar
+                        </a>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if c.pix_payload %}
+                        <a href="https://api.qrserver.com/v1/create-qr-code/?data={{ c.pix_payload }}" 
+                           target="_blank" 
+                           class="btn btn-sm btn-primary">
+                            🔳 QR
+                        </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
