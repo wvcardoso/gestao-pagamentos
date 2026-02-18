@@ -1,0 +1,32 @@
+
+services:
+
+  app:
+    build: .
+    container_name: gestao-contas
+    volumes:
+      - ./data/:/app/data
+    labels:
+      - "traefik.enable=true"
+      # Router HTTPS
+      - "traefik.http.routers.contas.rule=Host(`${URL}`)"
+      - "traefik.http.routers.contas.entrypoints=websecure"
+      - "traefik.http.routers.contas.tls=true"
+
+      # Porta interna do Dashy
+      - "traefik.http.services.contas.loadbalancer.server.port=5000"
+    env_file:
+      - .env
+
+    environment:
+      - ENV=prod
+      # variaveis que esta no .env
+      #- APP_USER=admin
+      #- APP_PASSWORD_HASH=scrypt:32768:8:xxxxxx
+
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true

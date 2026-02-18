@@ -2,6 +2,8 @@
 
 O **gestao-pagamentos** é um aplicativo desenvolvido para ajudar no controle de contas mensais, como energia, água, telefone e outros pagamentos recorrentes.
 
+![alt text](image.png)
+
 A ideia é centralizar todas as contas em um único lugar, permitindo:
 
 - 📄 Leitura automática de contas em PDF
