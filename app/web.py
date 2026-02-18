@@ -9,14 +9,11 @@ app = Flask(__name__)
 app.secret_key = SECRET_KEY
 
 # 🔒 CONFIG DE SEGURANÇA (produção)
-ENV = os.getenv("ENV", "dev")
-
 app.config.update(
-    SESSION_COOKIE_SECURE=(ENV == "prod"),
+    SESSION_COOKIE_SECURE=True,
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax"
 )
-
 
 # 🔹 DB
 def get_contas():
@@ -45,6 +42,7 @@ def login():
 
         if username == USUARIO and check_password_hash(SENHA_HASH, password):
             session["logado"] = True
+            session["usuario"] = username
             return redirect(url_for("index"))
 
         return render_template("login.html", erro="Usuário ou senha inválidos")
@@ -74,6 +72,7 @@ def index():
 
     status = request.args.get("status")
     residencia = request.args.get("residencia")
+    periodo = request.args.get("periodo")  # 🔥 NOVO
 
     contas = get_contas()
 
@@ -85,8 +84,32 @@ def index():
     if residencia:
         contas = [c for c in contas if c["residencia"] == residencia]
 
+    # 🔍 filtro por período (MM/YYYY)
+    if periodo:
+        contas = [
+            c for c in contas
+            if c["vencimento"] and c["vencimento"][3:10] == periodo
+        ]
+
     # 🔥 lista única de residências
-    residencias = sorted(set(c["residencia"] for c in get_contas() if c["residencia"]))
+    residencias = sorted(set(
+        c["residencia"] for c in get_contas() if c["residencia"]
+    ))
+
+    # 🔥 lista de períodos (MM/YYYY)
+    periodos = sorted(set(
+        c["vencimento"][3:10]
+        for c in get_contas()
+        if c["vencimento"]
+    ), reverse=True)
+
+    # 🔥 mapa de meses (para exibição bonita)
+    mapa_meses = {
+        "01": "Jan", "02": "Fev", "03": "Mar",
+        "04": "Abr", "05": "Mai", "06": "Jun",
+        "07": "Jul", "08": "Ago", "09": "Set",
+        "10": "Out", "11": "Nov", "12": "Dez"
+    }
 
     total_pendente = sum(c["valor"] for c in contas if c["status"] == "pendente")
     total_pago = sum(c["valor"] for c in contas if c["status"] == "pago")
@@ -100,7 +123,10 @@ def index():
         total_contas=total_contas,
         status_selecionado=status,
         residencia_selecionada=residencia,
-        residencias=residencias
+        periodo_selecionado=periodo,
+        residencias=residencias,
+        periodos=periodos,
+        mapa_meses=mapa_meses
     )
 
 

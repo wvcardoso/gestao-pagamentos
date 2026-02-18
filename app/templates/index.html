@@ -60,7 +60,22 @@
                         {% endfor %}
                     </select>
                 </div>
+                <!-- PERÍODO -->
+                <div class="col-md-3">
+                    <label class="form-label">Período</label>
+                    <select name="periodo" class="form-select" onchange="this.form.submit()">
+                        <option value="">Todos</option>
+                    
+                        {% for p in periodos %}
+                        <option value="{{ p }}"
+                            {% if periodo_selecionado == p %}selected{% endif %}>
+                            
+                            {{ mapa_meses[p[:2]] }}/{{ p[3:] }}
 
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <!-- LIMPAR -->
                 <div class="col-md-2">
                     <a href="/" class="btn btn-secondary w-100">Limpar</a>
