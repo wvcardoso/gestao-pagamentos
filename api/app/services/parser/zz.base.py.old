@@ -1,4 +1,7 @@
-from utils import (
+from api.app.services.parser import manual
+from api.app.services.parser import neoenergia
+from api.app.services.parser import caesb
+from app.core.utils import (
     extrair_texto_pdf,
     extrair_texto_txt,
     identificar_favorecido,
@@ -7,13 +10,13 @@ from utils import (
     carregar_residencias,
 )
 
-from parser import neoenergia, caesb, manual
+from api.app.services.parser import simplesnacional
 
 PARSERS = {
     "neoenergia": neoenergia,
     "caesb": caesb,
+    "simplesnacional": simplesnacional,
 }
-
 
 def processar(caminho):
 
@@ -25,6 +28,9 @@ def processar(caminho):
     if caminho.endswith(".pdf"):
 
         texto = extrair_texto_pdf(caminho)
+        
+        #print(texto)
+        
         favorecido = identificar_favorecido(texto)
 
         parser = PARSERS.get(favorecido)
@@ -49,7 +55,7 @@ def processar(caminho):
         if unidade:
             unidade = str(unidade).strip()
             residencia = encontrar_residencia_por_codigo(unidade, mapa_residencias)
-        else:
+        else:            
             residencia = "Desconhecida"
 
         dados["residencia"] = residencia
@@ -71,10 +77,10 @@ def processar(caminho):
         unidade = dados.get("unidade_consumidora")
 
         if unidade:
-            unidade = str(unidade).strip()
+            unidade = str(unidade).strip()            
             residencia = encontrar_residencia_por_codigo(unidade, mapa_residencias)
-        else:
-            residencia = "Desconhecida"
+        else:            
+            residencia = "desconhecida" # ou não se aplica!!!
 
         dados["residencia"] = residencia
         

@@ -1,6 +1,5 @@
 import re
-from utils import normalizar_referencia, extrair_codigo_pagamento
-
+from app.core.utils import normalizar_referencia, extrair_codigo_pagamento
 
 def parse(texto):
 
@@ -15,34 +14,30 @@ def parse(texto):
         "valor": dados["valor"] if dados else None,
         "vencimento": dados["vencimento"] if dados else None,
         "codigo_pagamento": codigo,
-        "descricao": "conta de energia"
+        "descricao": "conta de agua"
     }
 
 
 def extrair_codigo_unidade(texto):
 
-    match = re.search(
-        r"(\d{1,3}(?:\.\d{3})*-\d)\s+\d{2}/\d{2}/\d{4}\s+\d+,\d{2}",
-        texto
-    )
-
+    match = re.search(r"INSCRIÇÃO:\s*(\d+-\d+)", texto)
     if match:
-        return match.group(1).replace(".", "")
+        return match.group(1)
 
     return None
 
 
 def extrair_dados_principais(texto):
 
-    padrao = r"([A-Z]{3}/\d{4})\s+(\d+,\d{2})\s+(\d{2}/\d{2}/\d{4})"
+    padrao = r"\d+-\d+\s+(\d{2}/\d{4})\s+\d+\s+(\d{2}/\d{2}/\d{4})\s+(\d+,\d{2})"
 
     match = re.search(padrao, texto)
 
     if match:
         return {
             "referencia": normalizar_referencia(match.group(1)),
-            "valor": match.group(2),
-            "vencimento": match.group(3),
+            "vencimento": match.group(2),
+            "valor": match.group(3),
         }
 
     return None

@@ -1,11 +1,14 @@
-import sqlite3
-from config import DB_FILE
+import sqlite3, os
+from app.core.bootstrap import DB_FILE
+from app.database import engine
+from app.core.database import Base
 
 def conectar():
-    return sqlite3.connect(DB_FILE)
+    return sqlite3.connect(DB_FILE, check_same_thread=False)
 
+def init_db():
 
-def criar_tabela():
+    Base.metadata.create_all(bind=engine)
     conn = conectar()
     cursor = conn.cursor()
 
@@ -60,3 +63,27 @@ def inserir_conta(dados):
     conn.commit()
     conn.close()
 
+def listar_contas():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM contas ORDER BY vencimento")
+    
+    colunas = [col[0] for col in cursor.description]
+
+    contas = []
+    for row in cursor.fetchall():
+        contas.append(dict(zip(colunas, row)))
+
+    conn.close()
+
+    return contas
+
+def pagar_conta(id):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+
+    cursor.execute("UPDATE contas SET status = 'pago' WHERE id = ?", (id,))
+    
+    conn.commit()
+    conn.close()

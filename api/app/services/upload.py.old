@@ -1,0 +1,2 @@
+@router.post("/")
+def processar_uploads():

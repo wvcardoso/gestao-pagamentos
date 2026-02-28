@@ -208,3 +208,7 @@ __marimo__/
 
 data/*
 testes/*
+contas.db
+residencias.json
+zz.bkp/*
+minio/*

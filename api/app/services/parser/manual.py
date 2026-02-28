@@ -1,5 +1,4 @@
-from utils import normalizar_referencia
-
+from app.core.utils import normalizar_referencia
 
 def parse(texto):
 

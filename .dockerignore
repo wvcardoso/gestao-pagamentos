@@ -1,0 +1,27 @@
+# 🔒 Git
+.git
+.gitignore
+
+# 🐍 Python
+__pycache__/
+*.pyc
+*.pyo
+
+# 🔐 Config sensível
+.env
+
+# 📦 venv
+venv/
+.env/
+
+# 📄 Dados (IMPORTANTE no seu caso)
+data/
+*.pdf
+
+# 🧪 arquivos temporários
+*.log
+*.tmp
+
+# 🐳 Docker
+docker-compose.yml
+Dockerfile
